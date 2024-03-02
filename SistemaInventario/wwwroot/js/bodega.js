@@ -38,6 +38,30 @@ function loadDataTable() {
                     `;
                 }, width: "20%"
             }
-        ]
+        ],
+        "language": {
+            "decimal": "",
+            "emptyTable": "No hay datos disponibles en la tabla",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas totales",
+            "infoEmpty": "Mostrando de 0 a 0 en 0 entradas",
+            "infoFiltered": "(Filtrado de _MAX_ entradas totales)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "",
+            "search": "Buscar:",
+            "zeroRecords": "No se encontraron registros coincidentes",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "aria": {
+                "orderable": "Ordenar por esta columna",
+                "orderableReverse": "Ordena al revés por esta columna"
+            }
+        } 
     });
 }
