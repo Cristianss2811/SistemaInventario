@@ -1,4 +1,5 @@
-﻿let datatable;
+﻿
+let datatable;
 
 $(document).ready(function () {
     loadDataTable();
@@ -63,5 +64,32 @@ function loadDataTable() {
                 "orderableReverse": "Ordena al revés por esta columna"
             }
         } 
+    });
+}
+
+function Delete(url) {
+    swal({
+        title: "Seguro que quieres eliminar la bodega?",
+        text: "Este registro no se podra recuperar",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((borrar) => {
+        if (borrar) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        //actualizar la tabla 
+                        datatable.ajax.reload();
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            });
+        }
     });
 }
