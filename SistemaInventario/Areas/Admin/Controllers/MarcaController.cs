@@ -9,11 +9,11 @@ using System.Drawing;
 namespace SistemaInventario.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BodegaController : Controller
+    public class MarcaController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
 
-        public BodegaController(IUnidadTrabajo unidadTrabajo)
+        public MarcaController(IUnidadTrabajo unidadTrabajo)
         {
             _unidadTrabajo = unidadTrabajo;
         }
@@ -25,62 +25,62 @@ namespace SistemaInventario.Areas.Admin.Controllers
         //metodo Upsert GET
         public async Task<IActionResult> Upsert(int? id)
         {
-            Bodega bodega = new Bodega();
+            Marca marca = new Marca();
             if (id == null)
             {
                 //creamos un nuevo registro
-                bodega.Estado = true;
-                return View(bodega);
+                marca.Estado = true;
+                return View(marca);
             }
-            bodega = await _unidadTrabajo.Bodega.Obtener(id.GetValueOrDefault());
-            if (bodega == null)
+            marca = await _unidadTrabajo.Marca.Obtener(id.GetValueOrDefault());
+            if (marca == null)
             {
                 return NotFound();
             }
-            return View(bodega);
+            return View(marca);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(Bodega bodega)
+        public async Task<IActionResult> Upsert(Marca marca)
         {
             if (ModelState.IsValid)
             {
-                if (bodega.Id == 0)
+                if (marca.Id == 0)
                 {
-                    await _unidadTrabajo.Bodega.Agregar(bodega);
-                    TempData[DS.Exitosa] = "La bodega se creo con exito";
+                    await _unidadTrabajo.Marca.Agregar(marca);
+                    TempData[DS.Exitosa] = "La marca se creo con exito";
                 }
                 else
                 {
-                    _unidadTrabajo.Bodega.Actualizar(bodega);
-                    TempData[DS.Exitosa] = "La bodega se actualizo con exito";
+                    _unidadTrabajo.Marca.Actualizar(marca);
+                    TempData[DS.Exitosa] = "La marca se actualizo con exito";
                 }
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al grabar la bodega";
-            return View(bodega);
+            TempData[DS.Error] = "Error al grabar la marca";
+            return View(marca);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var bodegaDB = await _unidadTrabajo.Bodega.Obtener(id);
-            if (bodegaDB == null)
+            var marcaDB = await _unidadTrabajo.Marca.Obtener(id);
+            if (marcaDB == null)
             {
                 return Json(new { success = false, message = "Error al borrar el rgistro en la Base de datos" });
             }
-            _unidadTrabajo.Bodega.Remover(bodegaDB);
+            _unidadTrabajo.Marca.Remover(marcaDB);
             await _unidadTrabajo.Guardar();
-            return Json(new { success = true, message = "Bodega eliminada con exito" });
+            return Json(new { success = true, message = "Marca eliminada con exito" });
         }
 
         #region API
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()
         {
-            var todos = await _unidadTrabajo.Bodega.ObtenerTodos();
+            var todos = await _unidadTrabajo.Marca.ObtenerTodos();
             return Json(new { data = todos });
         }
 
@@ -90,7 +90,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
         public async Task<IActionResult> ValidarNombre(string nombre, int id = 0)
         {
             bool valor = false;
-            var lista = await _unidadTrabajo.Bodega.ObtenerTodos();
+            var lista = await _unidadTrabajo.Marca.ObtenerTodos();
 
             if (id == 0)
             {
